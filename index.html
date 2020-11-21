@@ -1,19 +1,22 @@
+<!DOCTYPE html>
+<html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="main.css">
 </head>
 
-
-<div style="text-align: center; font-size: 30px; margin-top: 200px;">
+<body>
+<div class="outerDiv">
     <!--<h2>COVID Deaths in the United States</h2>-->
     <h3>250,000 people have died from COVID-19 in the United States.</h3>
     <h5>This page has an emoji representing each one of them.</h5>
-    <div id="emojiList">
+    <div class="emojiList" id="emojiList">
     </div>
     <div>
         <h1>250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.</h1>
     </div>
 </div>
-
+</body>
 
 <script>
 
@@ -35,12 +38,12 @@
     ];
 
     const deaths = 250000;
-    const scaleStart = 50;
+    const scaleStart = 60;
     const scaleEnd = 10;
 
     console.time('createSpans');
     for (let i = scaleStart; i >= scaleEnd; i--) {
-        $("#emojiList").append(`<span id="${i}" style="font-size: ${i}px"></span>`);
+        $("#emojiList").append(`<span id="e${i}" style="font-size: ${i}px"></span>`);
     }
     console.timeEnd('createSpans');
 
@@ -48,10 +51,11 @@
     for (let i = 0; i < deaths; i++) {
         emoji = Math.floor(Math.random() * validEmoji.length);
         skintone = Math.floor(Math.random() * validSkinTones.length);
-        sizeDiff = Math.floor(i / (deaths / 40));
-        $(`#${50-sizeDiff}`).append(validEmoji[emoji] + validSkinTones[skintone]);
+        sizeDiff = Math.floor(i / (deaths / (scaleStart - scaleEnd)));
+        $(`#e${scaleStart-sizeDiff}`).append(validEmoji[emoji] + validSkinTones[skintone]);
     }
     console.timeEnd('createEmoji');
 
         
 </script>
+</html>
