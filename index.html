@@ -53,7 +53,8 @@
     for (let i = scaleStart; i >= scaleEnd; i--) {
         $("#emojiList").append(`<span id="e${i}" style="font-size: ${i}px"></span>`);
     }
-
+    
+    console.time('addingEmoji');
     for (let i = 0; i < deaths; i++) {
         randomEmoji = Math.floor(Math.random() * validEmoji.length);
         randomSkintone = Math.floor(Math.random() * validSkinTones.length);
@@ -63,6 +64,7 @@
         
         $(`#e${fontSize}`).append(validEmoji[randomEmoji] + validSkinTones[randomSkintone]);
     }
+    console.timeEnd('addingEmoji');
 
         
 </script>
