@@ -1,0 +1,56 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+<div style="text-align: center; font-size: 30px; margin-top: 200px;">
+    <h2>COVID Deaths in the United States</h2>
+    <h3>250,000 people have died from COVID-19</h3>
+    <h5>This page has an emoji representing each one of them.</h5>
+
+    <div id="emojiList">
+        
+    </div>
+</div>
+
+
+<script>
+
+    const validEmoji = [
+        '&#128104;', // Man
+        '&#128105;', // Woman
+    ];
+
+    const validSkinTones = [
+        '&#127996', '&#127996', '&#127997', '&#127998', '&#127999'
+    ];
+    
+    validEmoji.forEach(function(e) {
+        validSkinTones.forEach(function(st) {
+            $("#emojiList").append(e + st);
+        });
+    });
+
+    for (let i = 0; i < 250000; i++) {
+        $("#emojiList").append(validEmoji[Math.floor(Math.random() * validEmoji.length)] + validSkinTones[Math.floor(Math.random() * validSkinTones.length)]);
+
+        if (i == 1000) {
+            $("#emojiList").append("<div>That was 1,000 deaths.</div>");
+        }
+
+        if (i == 2000) {
+            $("#emojiList").append("<div>That was another 1,000 deaths.</div>");
+        }
+
+        if (i == 10000) {
+            $("#emojiList").append("<div>That is 10,000 deaths in total.</div>");
+        }
+
+        if (i == 25000) {
+            $("#emojiList").append("<div>We're 10% of the way there.</div>");
+        }
+    }
+
+    $("#emojiList").append("<div><h1>250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.</h1></div>");
+
+</script>
