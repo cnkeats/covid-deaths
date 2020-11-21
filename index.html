@@ -46,24 +46,23 @@
         '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'
     ];
 
-    let deaths = 50000;
+    let deaths = 250000;
     let scaleStart = renderMobile ? 120 : 50;
-    let scaleEnd = renderMobile ? 20 : 10;
+    let scaleEnd = renderMobile ? 20 : 20;
 
-    console.time('createSpans');
     for (let i = scaleStart; i >= scaleEnd; i--) {
         $("#emojiList").append(`<span id="e${i}" style="font-size: ${i}px"></span>`);
     }
-    console.timeEnd('createSpans');
 
-    console.time('createEmoji');
     for (let i = 0; i < deaths; i++) {
-        emoji = Math.floor(Math.random() * validEmoji.length);
-        skintone = Math.floor(Math.random() * validSkinTones.length);
-        sizeDiff = Math.floor(i / (deaths / (scaleStart - scaleEnd)));
-        $(`#e${scaleStart-sizeDiff}`).append(validEmoji[emoji] + validSkinTones[skintone]);
+        randomEmoji = Math.floor(Math.random() * validEmoji.length);
+        randomSkintone = Math.floor(Math.random() * validSkinTones.length);
+
+        sizeDiff = (1 - Math.pow(2.71828, -0.0002768646 * i));
+        fontSize = scaleStart - Math.floor(sizeDiff * (scaleStart - scaleEnd));
+        
+        $(`#e${fontSize}`).append(validEmoji[randomEmoji] + validSkinTones[randomSkintone]);
     }
-    console.timeEnd('createEmoji');
 
         
 </script>
