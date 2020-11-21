@@ -51,16 +51,18 @@
         '', '\u{1F9B0}', '\u{1F9B1}', '\u{1F9B2}'
     ];
 
-    validEmoji.forEach(emoji => {
-        $("#emojiTest").append(emoji);
+    validEmoji.forEach((emoji, index) => {
+        //$("#emojiTest").append(emoji);
         
         $("#emojiTest").append("<div>-----</div>");
         validSkinTones.forEach(st => {
             $("#emojiTest").append(emoji + st);
 
-            validHaircuts.forEach(hc => {
-                $("#emojiTest").append(emoji + st + zwj + hc);
-            });
+            if (index == 4 || index == 5) {
+                validHaircuts.forEach(hc => {
+                    $("#emojiTest").append(emoji + st + zwj + hc);
+                });
+            }
             $("#emojiTest").append("<div>-----</div>");
         });
     });
