@@ -7,9 +7,10 @@
 
 <body>
 <div class="outerDiv">
-    <!--<h2>COVID Deaths in the United States</h2>-->
-    <h3>250,000 people have died from COVID-19 in the United States.</h3>
-    <h5>This page has an emoji representing each one of them.</h5>
+    <div class="description">
+        <h3>250,000 people have died from COVID-19 in the United States.</h3>
+        <h5>This page has an emoji representing each one of them.</h5>
+    </div>
     <div class="emojiList" id="emojiList">
     </div>
     <div>
@@ -23,10 +24,10 @@
     const zwj = '\u{200D}';
 
     const validEmoji = [
-        //'\u{1F9D2}', // Child - Windows does not support hair color
+        '\u{1F9D2}', // Child - Windows does not support hair color
         '\u{1F466}', // Boy
         '\u{1F467}', // Girl
-        //'\u{1F9D1}', // Person - Windows does not support hair color
+        '\u{1F9D1}', // Person - Windows does not support hair color
         '\u{1F468}', // Man
         '\u{1F469}', // Woman
         '\u{1F9D3}', // Old Person
@@ -37,7 +38,7 @@
         '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'
     ];
 
-    const deaths = 250000;
+    const deaths = 25;
     const scaleStart = 60;
     const scaleEnd = 10;
 
