@@ -47,8 +47,9 @@
     let deaths = 250000;
     let scaleStart = renderMobile ? 120 : 50;
     let scaleEnd = renderMobile ? 20 : 20;
-    let prevFontSize = scaleStart;
-    let d = new Array(20).fill('0');
+    let fontSize = scaleStart
+    let prevFontSize = fontSize;
+    let d = new Array(200).fill('0');
     let index = 0;
 
     function createSpan() {
@@ -62,9 +63,10 @@
         d[index] = '1';
         $("#emojiList").append(`<span id="e${fontSize}${d.join('')}" style="font-size: ${fontSize}px"></span>`);
     }
+    createSpan();
 
     console.time('addingEmoji');
-    for (let i = 0; i <= deaths; i++) {
+    for (let i = 1; i <= deaths; i++) {
         randomEmoji = Math.floor(Math.random() * validEmoji.length);
         randomSkintone = Math.floor(Math.random() * validSkinTones.length);
 
