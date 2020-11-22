@@ -14,7 +14,7 @@
     <div class="emojiList" id="emojiList">
     </div>
     <div class="description">
-        <h2>250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.</h2>
+        <h2 id="bottomText"><h2>
     </div>
 </div>
 </body>
@@ -44,91 +44,119 @@
         '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'
     ];
 
+    function checkVisible( elm, eval ) {
+        eval = eval || "visible";
+        var vpH = $(window).height(), // Viewport Height
+            st = $(window).scrollTop(), // Scroll Top
+            y = $(elm).offset().top,
+            elementHeight = $(elm).height();
+        
+        if (eval == "visible") return ((y < (vpH + st)) && (y > (st - elementHeight)));
+        if (eval == "above") return ((y < (vpH + st)));
+    }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function handleStatementInserts() {
+        if (count == 1000) {
+            $("#emojiList").append(`<div class="statement">That was 1,000 people, all casualties.</div>`);
+        }
+        else if (count == 5000) {
+            $("#emojiList").append(`<div class="statement">5,000 deaths in total so far.</div>`);
+        }
+        else if (count == (deaths / 10)) {
+            $("#emojiList").append(`<div class="statement">We're 10% of the way there.</div>`);
+        }
+        else if (count == (deaths * 2 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people were somebody you knew?</div>`);
+        }
+        else if (count == (deaths * 3 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people did all they could to prevent the spread of the disease?</div>`);
+        }
+        else if (count == (deaths * 4 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people did nothing?</div>`);
+        }
+        else if (count == (deaths * 5 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+        }
+        else if (count == (deaths * 6 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+        }
+        else if (count == (deaths * 7 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+        }
+        else if (count == (deaths * 8 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+        }
+        else if (count == (deaths * 9 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+        }
+        if (count >= deaths) {
+            $("#bottomText").text(`250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.`);
+            clearInterval(interval);
+        }
+    }
+
     let deaths = 250000;
+    let count = 0; 
     let scaleStart = renderMobile ? 120 : 50;
     let scaleEnd = renderMobile ? 20 : 20;
-    let fontSize = scaleStart
-    let prevFontSize = fontSize;
-    let d = new Array(200).fill('0');
-    let index = 0;
+    let fontSize = scaleStart;
+    let prevFontSize = fontSize+1;
+    let lists = [];
+    let listCount = 0;
 
-    function createSpan() {
-        for (let i = 0; i < d.length; i++) {
-            if (d[i] == '0') {
-                index = i;
+    function addNewSpan() {
+        listCount = lists.length;
+        sizeDiff = (1 - Math.pow(2.71828, -0.0002768646 * count));
+        prevFontSize = fontSize;
+        fontSize = Math.max(prevFontSize - 1, scaleStart - Math.floor(sizeDiff * (scaleStart - scaleEnd)));
+        
+        var newSpan = $(`<span id="${listCount}" style="font-size: ${fontSize}px;"></span>`);
+        $("#emojiList").append(newSpan);
+        lists.push(newSpan);
+
+        for (let i = 0; i < 1000; i++) {
+            newSpan.append(validEmoji[Math.floor(Math.random() * validEmoji.length)] + validSkinTones[Math.floor(Math.random() * validSkinTones.length)]);
+            count++;
+            
+            if (count % 1000 == 0 && count > 0) {
+                console.log(count);
+                handleStatementInserts();
+            }
+
+            if (count == deaths) {
                 break;
             }
         }
-
-        d[index] = '1';
-        $("#emojiList").append(`<span id="e${fontSize}${d.join('')}" style="font-size: ${fontSize}px"></span>`);
     }
-    createSpan();
 
-    console.time('addingEmoji');
-    for (let i = 1; i <= deaths; i++) {
-        randomEmoji = Math.floor(Math.random() * validEmoji.length);
-        randomSkintone = Math.floor(Math.random() * validSkinTones.length);
-
-        sizeDiff = (1 - Math.pow(2.71828, -0.0002768646 * i));
-        fontSize = scaleStart - Math.floor(sizeDiff * (scaleStart - scaleEnd));
-        
-        if (fontSize != prevFontSize) {
-            $("#emojiList").append(`<span id="e${fontSize}${d.join('')}" style="font-size: ${fontSize}px"></span>`);
-            split = false;
-        }
-
-        $(`#e${fontSize}${d.join('')}`).append(validEmoji[randomEmoji] + validSkinTones[randomSkintone]);
-
-        prevFontSize = fontSize;
-
-        if (i == 1000) {
-            $("#emojiList").append(`<div class="statement">That was 1,000 people, all casualties.</div>`);
-            createSpan();
-        }
-        else if (i == 5000) {
-            $("#emojiList").append(`<div class="statement">5,000 deaths in total so far.</div>`);
-            createSpan();
-        }
-        else if (i == (deaths / 10)) {
-            $("#emojiList").append(`<div class="statement">We're 10% of the way there.</div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 2 / 10)) {
-            $("#emojiList").append(`<div class="statement">How many of these people were somebody you knew?</div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 3 / 10)) {
-            $("#emojiList").append(`<div class="statement">How many of these people did all they could to prevent the spread of the disease?</div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 4 / 10)) {
-            $("#emojiList").append(`<div class="statement">How many of these people did nothing?</div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 5 / 10)) {
-            $("#emojiList").append(`<div class="statement">How many of these people left children behind?</div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 6 / 10)) {
-            //$("#emojiList").append(`<div class="statement"></div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 7 / 10)) {
-            //$("#emojiList").append(`<div class="statement"></div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 8 / 10)) {
-            //$("#emojiList").append(`<div class="statement"></div>`);
-            createSpan();
-        }
-        else if (i == (deaths * 9 / 10)) {
-            //$("#emojiList").append(`<div class="statement"></div>`);
-            createSpan();
-        }
+    for (let i = 0; i < 50; i++) {
+        addNewSpan();
     }
-    console.timeEnd('addingEmoji');
 
-        
+    $(window).scroll(function() {
+        listCount = lists.length;
+        if (count < deaths && (checkVisible(lists[listCount-4]) || ($(window).scrollTop() > $(document).height() / 10))) {
+            addNewSpan();
+        } 
+    });
+
+    interval = window.setInterval(function() {
+        listCount = lists.length;
+        addNewSpan();
+    }, 50);
+
+    $(document).ready(function(){
+        $(this).scrollTop(0);
+    });
+
 </script>
 </html>
