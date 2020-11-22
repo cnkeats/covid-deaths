@@ -119,7 +119,7 @@
         prevFontSize = fontSize;
         fontSize = Math.max(prevFontSize - 1, scaleStart - Math.floor(sizeDiff * (scaleStart - scaleEnd)));
         
-        var newSpan = $(`<span id="${listCount}" style="font-size: ${fontSize}px;"></span>`);
+        var newSpan = $(`<span id="e${listCount}" style="font-size: ${fontSize}px;"></span>`);
         $("#emojiList").append(newSpan);
         lists.push(newSpan);
 
