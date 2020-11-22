@@ -8,10 +8,7 @@
     font-size: 50px;
 }
 
-.statement {
-    font-size: 50px;
-    padding: 15%;
-}
+
 
 #bottomText {
     padding: 10%;
@@ -22,10 +19,20 @@
     #e0 {
         font-size: 120px;
     }
+
+    .statement {
+        font-size: 50px;
+        padding: 35%;
+    }
 }
 
 @media (min-width:480px) {
     #e0 {
         font-size: 50px;
+    }
+
+    .statement {
+        font-size: 50px;
+        padding: 15%;
     }
 }
