@@ -11,12 +11,10 @@
         <h3>250,000 people have died from COVID-19 in the United States.</h3>
         <h5>This page has an emoji representing each one of them.</h5>
     </div>
-    <div class="emojiTest" id="emojiTest" style="font-size: 30px">
-    </div>
     <div class="emojiList" id="emojiList">
     </div>
-    <div>
-        <h1>250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.</h1>
+    <div class="description">
+        <h2>250,000 people have died from COVID-19 in the United States alone. These deaths were preventable.</h2>
     </div>
 </div>
 </body>
@@ -31,13 +29,11 @@
 
     let renderMobile = mobileCheck();
 
-    const zwj = '\u{200D}';
-
     const validEmoji = [
-        '\u{1F9D2}', // Child - Windows does not support hair color
+        '\u{1F9D2}', // Child
         '\u{1F466}', // Boy
         '\u{1F467}', // Girl
-        '\u{1F9D1}', // Person - Windows does not support hair color
+        '\u{1F9D1}', // Person
         '\u{1F468}', // Man
         '\u{1F469}', // Woman
         '\u{1F9D3}', // Old Person
@@ -47,43 +43,87 @@
     const validSkinTones = [
         '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'
     ];
-    const validHaircuts = [
-        '', '\u{1F9B0}', '\u{1F9B1}', '\u{1F9B2}'
-    ];
 
-    validEmoji.forEach((emoji, index) => {
-        //$("#emojiTest").append(emoji);
-        
-        $("#emojiTest").append("<div>-----</div>");
-        validSkinTones.forEach(st => {
-            $("#emojiTest").append(emoji + st);
-
-            if (index == 4 || index == 5) {
-                validHaircuts.forEach(hc => {
-                    $("#emojiTest").append(emoji + st + zwj + hc);
-                });
-            }
-            $("#emojiTest").append("<div>-----</div>");
-        });
-    });
-
-    let deaths = 2500;
+    let deaths = 250000;
     let scaleStart = renderMobile ? 120 : 50;
     let scaleEnd = renderMobile ? 20 : 20;
+    let prevFontSize = scaleStart;
+    let d = new Array(20).fill('0');
+    let index = 0;
 
-    for (let i = scaleStart; i >= scaleEnd; i--) {
-        $("#emojiList").append(`<span id="e${i}" style="font-size: ${i}px"></span>`);
+    function createSpan() {
+        for (let i = 0; i < d.length; i++) {
+            if (d[i] == '0') {
+                index = i;
+                break;
+            }
+        }
+
+        d[index] = '1';
+        $("#emojiList").append(`<span id="e${fontSize}${d.join('')}" style="font-size: ${fontSize}px"></span>`);
     }
 
     console.time('addingEmoji');
-    for (let i = 0; i < deaths; i++) {
+    for (let i = 0; i <= deaths; i++) {
         randomEmoji = Math.floor(Math.random() * validEmoji.length);
         randomSkintone = Math.floor(Math.random() * validSkinTones.length);
 
         sizeDiff = (1 - Math.pow(2.71828, -0.0002768646 * i));
         fontSize = scaleStart - Math.floor(sizeDiff * (scaleStart - scaleEnd));
         
-        $(`#e${fontSize}`).append(validEmoji[randomEmoji] + validSkinTones[randomSkintone]);
+        if (fontSize != prevFontSize) {
+            $("#emojiList").append(`<span id="e${fontSize}${d.join('')}" style="font-size: ${fontSize}px"></span>`);
+            split = false;
+        }
+
+        $(`#e${fontSize}${d.join('')}`).append(validEmoji[randomEmoji] + validSkinTones[randomSkintone]);
+
+        prevFontSize = fontSize;
+
+        if (i == 1000) {
+            $("#emojiList").append(`<div class="statement">That was 1,000 people, all casualties.</div>`);
+            createSpan();
+        }
+        else if (i == 5000) {
+            $("#emojiList").append(`<div class="statement">5,000 deaths in total so far.</div>`);
+            createSpan();
+        }
+        else if (i == (deaths / 10)) {
+            $("#emojiList").append(`<div class="statement">We're 10% of the way there.</div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 2 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people were somebody you knew?</div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 3 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people did all they could to prevent the spread of the disease?</div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 4 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people did nothing?</div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 5 / 10)) {
+            $("#emojiList").append(`<div class="statement">How many of these people left children behind?</div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 6 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 7 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 8 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+            createSpan();
+        }
+        else if (i == (deaths * 9 / 10)) {
+            //$("#emojiList").append(`<div class="statement"></div>`);
+            createSpan();
+        }
     }
     console.timeEnd('addingEmoji');
 
